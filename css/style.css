@@ -1,7 +1,20 @@
+:root {
+  --bg: #383333;
+  --btn-bg: #e3e3e3;
+  --btn-hover: #868686;
+  --btn-accent: #6276f8;
+  --input-bg: #000;
+  --input-color: #0f0;
+  --input-border: #ff0;
+  --font-lcd: 'lcd', monospace;
+  --gap: 1rem;
+  --radius: 0.5rem;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 @font-face {
@@ -10,51 +23,78 @@
 }
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-lcd);
+  padding: var(--gap);
 }
 
 main {
-
+  max-width: 45rem;
+  display: flex;
+  flex-direction: column;
 }
 
-main input{
-    width: 100%;
+input {
+  width: 100%;
+  font-size: 3.5rem;
+  margin-bottom: var(--gap);
+  padding: 1rem 0.5rem;
+  background: var(--input-bg);
+  color: var(--input-color);
+  text-align: right;
+  border: 2px solid var(--input-border);
+  border-radius: 4px;
+  font-family: var(--font-lcd);
+}
+
+#keyBoard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--gap);
+}
+
+#keyBoard button {
+    font-size: 4.5rem;
+    padding: 1rem 0;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--btn-bg);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#keyBoard button:hover {background: var(--btn-hover);}
+
+#add, #sub, #div, #mul, #enter, #comma, #clear {color: var(--btn-accent);}
+
+@media (max-width: 480px) {
+  input {
+    font-size: 2.8rem;
+  }
+  #keyBoard button {
     font-size: 3.5rem;
-    margin-bottom:10px;
-    background-color: black;
-    color: green;
-    text-align: right;
-    padding: 10px 4px 10px 4px;
-    font-family: lcd;
-    border: 1px solid yellow;
-    border-radius:4px;
+  }
+  #clear {
+    font-size: 2.4rem;
+  }
 }
 
-main section#keyBoard {
-    /** Grid eller liknade */
-}
-
-@media (max-width: 767px) {
-    body {
-
-    }
-
-    main {
-
-    }
-
-    main input{
-
-    }
-}
-
-@media (max-width: 339px) {
-    main {
-
-    }
-
+@media (max-width: 320px) {
+  input {
+    font-size: 2.2rem;
+  }
+  #keyBoard button {
+    font-size: 2.6rem;
+    padding: 1rem 0;
+  }
+  #clear {
+    font-size: 2rem;
+  }
 }

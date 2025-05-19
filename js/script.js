@@ -1,74 +1,55 @@
-/**
- * Se detta som en grund att utgå ifrån.
- * Det är helt fritt att ändra och ta bort kod om ni
- * önskar lösa problemen med andra metoder.
- */
+// Vänta tills hela dokumentet har laddats
+document.addEventListener('DOMContentLoaded', function () {
+    // Hämta referenser till LCD-displayen och tangentbordet
+    let lcd = document.getElementById('lcd');
+    let keyBoard = document.getElementById('keyBoard');
 
-let lcd = null; // displayen
+    // Funktion som lägger till klick-händelser på varje knapp
+    function addDigit () {
+        let buttons = keyBoard.querySelectorAll('button');
 
-let memory = 0; // Lagrat/gamlat värdet från display
-let arithmetic = null; // Vilken beräkning som skall göras +,-, x eller /
+        buttons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                let value = button.innerText;
 
-function init() {
-    lcd = document.getElementById('lcd');
-    let keyBoard = document.getElementById('keyBoard')
-    keyBoard.onclick = buttonClick;
-}
+                // Rensa displayen om "clear"-knappen trycks
+                if (button.id === 'clear') {
+                    clearLcd();
+                // Beräkna resultatet om "enter"-knappen trycks
+                } else if (button.id === 'enter') {
+                    lcd.value = calculate(lcd.value);
+                // Annars lägg till tecknet i displayen
+                } else {
+                    lcd.value += value;
+                }
+            });
+        });
+    }
 
-/**
- * Händelsehanterare för kalkylatorns tangentbord
- */
-function buttonClick(e) {
-    let btn = e.target.id; //id för den tangent som tryckte ner
+    // Funktion som rensar displayen
+    function clearLcd () {lcd.value = '';}
 
-    // kollar om siffertangent är nedtryckt
-    if (btn.substring(0, 1) === 'b') {
-        let digit = btn.substring(1, 2); // plockar ut siffran från id:et
+    // Funktion som räknar ut ett uttryck med +, -, x, /
+    function calculate(value) {
+        let chars = value.split(/([+\-x/])/); // Dela upp uttrycket i siffror och operatorer
+        let result = parseFloat(chars[0]); // Startvärdet är det första talet
+    
+        // Loopa igenom operatorer och efterföljande tal
+        for (let i = 1; i < chars.length; i += 2) {
+            let operator = chars[i];
+            let nextNumber = parseFloat(chars[i + 1]);
+    
+            // Utför rätt beräkning beroende på operator
+            switch(operator) {
+                case '+': result += nextNumber; break;
+                case '-': result -= nextNumber; break;
+                case 'x': result *= nextNumber; break;
+                case '/': result /= nextNumber; break;
+            }
+        }
+        return result;
+    }
 
-    } else { // Inte en siffertangent, övriga tangenter.
-
-    }   
-}
-
-/**
- *  Lägger till siffra på display.
- */
-function addDigit(digit) {
-}
-
-/**
- * Lägger till decimaltecken
- */
-function addComma() {
-
-}
-
-/**
- * Sparar operator.
- * +, -, *, /
- */
-function setOperator(operator){
-
-}
-
-/**
- * Beräknar ovh visar resultatet på displayen.
- */
-function calculate() {
-
-}
-
-/** Rensar display */
-function clearLCD() {
-    lcd.value = '';
-    isComma = false;
-}
-
-/** Rensar allt, reset */
-function memClear(){
-    memory = 0;
-    arithmetic = null;
-    clearLCD();
-}
-
-window.onload = init;
+    // Kör funktionen som aktiverar knapparna
+    addDigit();
+});
