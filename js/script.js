@@ -30,26 +30,25 @@ document.addEventListener('DOMContentLoaded', function () {
     function clearLcd () {lcd.value = '';}
 
     // Funktion som räknar ut ett uttryck med +, -, x, /
-    function calculate(value) {
-        let chars = value.split(/([+\-x/])/); // Dela upp uttrycket i siffror och operatorer
-        let result = parseFloat(chars[0]); // Startvärdet är det första talet
-    
-        // Loopa igenom operatorer och efterföljande tal
-        for (let i = 1; i < chars.length; i += 2) {
-            let operator = chars[i];
-            let nextNumber = parseFloat(chars[i + 1]);
-    
-            // Utför rätt beräkning beroende på operator
-            switch(operator) {
-                case '+': result += nextNumber; break;
-                case '-': result -= nextNumber; break;
-                case 'x': result *= nextNumber; break;
-                case '/': result /= nextNumber; break;
-            }
+   function calculate(value) {
+    value = value.replace(/,/g, '.'); // Byt ut kommatecken mot punkt för beräkning
+    let chars = value.split(/([+\-x/])/); // Dela upp uttrycket i siffror och operatorer
+    let result = parseFloat(chars[0]);
+
+    for (let i = 1; i < chars.length; i += 2) {
+        let operator = chars[i];
+        let nextNumber = parseFloat(chars[i + 1]);
+
+        switch(operator) {
+            case '+': result += nextNumber; break;
+            case '-': result -= nextNumber; break;
+            case 'x': result *= nextNumber; break;
+            case '/': result /= nextNumber; break;
         }
-        return result;
     }
 
-    // Kör funktionen som aktiverar knapparna
-    addDigit();
+    return Number.isInteger(result) ? result.toString() : result.toFixed(3); // Avrundar till 3 decimaler om talet har decimaler
+
+}
+    addDigit();    // Kör funktionen som aktiverar knapparna
 });
